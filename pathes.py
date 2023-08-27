@@ -7,11 +7,11 @@ class TreeNode:
 def story_pathes():
   #Create the story nodes and choices
   choice2a = TreeNode("You explore the nearby settlement")
-  choice2b = TreeNode("You explore the wildrness" )
+  choice2b = TreeNode("You explore the wildrness")
   choice2c = TreeNode("You choose to go deeper into the space station")
   choice2d = TreeNode("You decide to explore the hangar area")
-  choice1a = TreeNode("Explore the planet")
-  choice1b = TreeNode("Explore the spacestation")
+  choice1a = TreeNode("Explore the planet", [choice2a, choice2b])
+  choice1b = TreeNode("Explore the spacestation", [choice2c, choice2d])
   root = TreeNode("You enter the Theta system. ahead of you is a planet and a spacestation", [choice1a, choice1b])
 
   #set the parent nodes
