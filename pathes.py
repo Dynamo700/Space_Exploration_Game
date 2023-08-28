@@ -1,5 +1,4 @@
 import random
-
 class TreeNode:
   def __init__(self, text, choices=None):
     self.text = text
@@ -40,31 +39,31 @@ def story_pathes():
   choice3g.parent = choice2d
   choice3h.parent = choice2d
 
-
-
-  #Add random encounters
-  choice3a.encounter_rate = 3
-
   #Add chance of finding random resource
-
-  #Add
+  #Add inventory system for equipment, resources, etc. Make this through use of text file(?)
 
   return root
 
-def encounter_plaza(choice):
+def encounter(choice):
   chance = random.randint(1,10)
   if choice.text == "You investigate the plaza" and chance == 8:
     print("You encounter a robot")
+  elif choice.text == "You take the left path" and chance == 3:
+    print("You encounter a beast")
   else:
     print("The coast is clear")
 
-
+def random_resource(choice):
+  chance = random.randint(1,25)
+  if choice.text == "You investigate the storage area in the hangar" and chance == 2:
+    print("You found a fuel cell would you like to pick it up?")
+  else:
+    print("You don't find anything")
 
 def show_choices(choices):
   print("Choices: ")
   for i, choice in enumerate(choices):
     print(f"{i + 1}: {choice.text}")
-
 
 def main():
   story_root = story_pathes()
@@ -80,7 +79,11 @@ def main():
       if 1 <= choice <= len(current_node.choices):
         current_node = current_node.choices[choice - 1]
         if current_node.text == "You investigate the plaza":
-          encounter_plaza(current_node)
+          encounter(current_node)
+        elif current_node.text == "You take the left path":
+          encounter(current_node)
+        elif current_node.text == "You investigate the storage area in the hangar":
+          random_resource(current_node)
       else:
         print("Attention! Invalid input. Please try again.")
     except ValueError:
