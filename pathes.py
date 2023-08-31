@@ -7,10 +7,17 @@ class TreeNode:
 
 def story_pathes():
   #Create the story nodes and choices
-  choice3a = TreeNode("You investigate the plaza") #Random encounter here
+  choice6a = TreeNode("You approach a light in the distance")
+  choice5a = TreeNode("Leave the plaza")
+  choice5b = TreeNode("You enter the cave", [choice6a])
+  choice4a = TreeNode("You investigate the vendor tables at the edge of the plaza", [choice5a])
+  choice4b = TreeNode("You go down a nearby alleyway") #death route
+  choice4c = TreeNode("approach cave", [choice5b])
+  choice4d = TreeNode("Approach pond") #death route
+  choice3a = TreeNode("You investigate the plaza", [choice4a, choice4b]) #Random encounter here
   choice3b = TreeNode("You investigate a building")
   choice3c = TreeNode("You take the left path")
-  choice3d = TreeNode("You take the right path")
+  choice3d = TreeNode("You take the right path", [choice4c, choice4d])
   choice3e = TreeNode("You go to the upper floor")
   choice3f = TreeNode("You go to the lower floor")
   choice3g = TreeNode("You investigate one of the old ships")
@@ -38,12 +45,27 @@ def story_pathes():
   choice3f.parent = choice2c
   choice3g.parent = choice2d
   choice3h.parent = choice2d
+  choice4a.parent = choice3a
+  choice4b.parent = choice3a
+  choice4c.parent = choice3d
+  choice4d.parent = choice3d
+  choice5a.parent = choice4a
+  choice5b.parent = choice4a
+  choice6a.parent = choice5b
 
   #Add chance of finding random resource
   #Add inventory system for equipment, resources, etc. Make this through use of text file(?)
 
   return root
 
+
+def found_item(choice):
+  pass
+def end_game_events(choice):
+  if choice.text == "You go down a nearby alleyway":
+    print("You fall down a sewer grate and die.")
+  elif choice.text == "Approach pond":
+    print("Suddenley a large reptilian creature comes up from the water and eats you!")
 def encounter(choice):
   chance = random.randint(1,10)
   if choice.text == "You investigate the plaza" and chance == 8:
@@ -57,6 +79,8 @@ def random_resource(choice):
   chance = random.randint(1,25)
   if choice.text == "You investigate the storage area in the hangar" and chance == 2:
     print("You found a fuel cell would you like to pick it up?")
+  elif choice.text == "You investigate the vendor tables at the edge of the plaza" and chance == 11:
+    print("you find an anicent wooden necklace that looks like it's been here for years")
   else:
     print("You don't find anything")
 
@@ -84,6 +108,12 @@ def main():
           encounter(current_node)
         elif current_node.text == "You investigate the storage area in the hangar":
           random_resource(current_node)
+        elif current_node.text == "You investigate the vendor tables at the edge of the plaza":
+          random_resource(current_node)
+        elif current_node.text == "You go down a nearby alleyway":
+          end_game_events(current_node)
+        elif current_node.text == "Approach pond":
+          end_game_events(current_node)
       else:
         print("Attention! Invalid input. Please try again.")
     except ValueError:
