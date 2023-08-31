@@ -7,6 +7,7 @@ class TreeNode:
 
 def story_pathes():
   #Create the story nodes and choices
+  # choice6b = TreeNode
   choice6a = TreeNode("You approach a light in the distance")
   choice5a = TreeNode("Leave the plaza")
   choice5b = TreeNode("You enter the cave", [choice6a])
@@ -14,9 +15,11 @@ def story_pathes():
   choice4b = TreeNode("You go down a nearby alleyway") #death route
   choice4c = TreeNode("approach cave", [choice5b])
   choice4d = TreeNode("Approach pond") #death route
+  choice4e = TreeNode("You approach the anicent monument")
+  choice4f = TreeNode("You approach the statue")
   choice3a = TreeNode("You investigate the plaza", [choice4a, choice4b]) #Random encounter here
   choice3b = TreeNode("You investigate a building")
-  choice3c = TreeNode("You take the left path")
+  choice3c = TreeNode("You take the left path", [choice4e, choice4f])
   choice3d = TreeNode("You take the right path", [choice4c, choice4d])
   choice3e = TreeNode("You go to the upper floor")
   choice3f = TreeNode("You go to the lower floor")
@@ -48,6 +51,8 @@ def story_pathes():
   choice4a.parent = choice3a
   choice4b.parent = choice3a
   choice4c.parent = choice3d
+  choice4e.parent = choice3c
+  choice4f.parent = choice3c
   choice4d.parent = choice3d
   choice5a.parent = choice4a
   choice5b.parent = choice4a
@@ -58,7 +63,16 @@ def story_pathes():
 
   return root
 
-
+def game_events(choice):
+  if choice.text == "You take the left path":
+    print("Before you is an anicent monument and a statue of a dragon. Which would you like to investigate?")
+  elif choice.text == "You approach the anicent monument":
+    print("As you approach the monument you see that there is alien writing on sections of the monument")
+    print("Suddenley the writing begins to glow blue, and energy forms around you, as you are teleported away from the planet...")
+  elif choice.text == "You approach the statue":
+    print("The statue was nearly 10 feet tall and seems to be humanoid shaped but has a wolf's head, hands and feet")
+    print("You hear faint...Whispering as you approach.")
+    print("Suddenley the statue moves toward you, it's eyes glowing blue, it presentes you with a mysterious sword.")
 def found_item(choice):
   pass
 def end_game_events(choice):
@@ -66,6 +80,8 @@ def end_game_events(choice):
     print("You fall down a sewer grate and die.")
   elif choice.text == "Approach pond":
     print("Suddenley a large reptilian creature comes up from the water and eats you!")
+  elif choice.text == "You approach a light in the distance":
+    print("You find a teal crystal that appears to have specks of blue within it. This is what was giving off that signal")
 def encounter(choice):
   chance = random.randint(1,10)
   if choice.text == "You investigate the plaza" and chance == 8:
@@ -106,6 +122,7 @@ def main():
           encounter(current_node)
         elif current_node.text == "You take the left path":
           encounter(current_node)
+          game_events(current_node)
         elif current_node.text == "You investigate the storage area in the hangar":
           random_resource(current_node)
         elif current_node.text == "You investigate the vendor tables at the edge of the plaza":
@@ -114,6 +131,12 @@ def main():
           end_game_events(current_node)
         elif current_node.text == "Approach pond":
           end_game_events(current_node)
+        elif current_node.text == "You approach a light in the distance":
+          end_game_events(current_node)
+        elif current_node.text == "You approach the anicent monument":
+          game_events(current_node)
+        elif current_node.text == "You approach the statue":
+          game_events(current_node)
       else:
         print("Attention! Invalid input. Please try again.")
     except ValueError:
