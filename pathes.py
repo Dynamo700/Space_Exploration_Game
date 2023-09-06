@@ -11,14 +11,21 @@ def story_pathes():
   choice6a = TreeNode("You approach a light in the distance")
   choice5a = TreeNode("Leave the plaza")
   choice5b = TreeNode("You enter the cave", [choice6a])
+  choice5c = TreeNode("Investigate kitchen")
+  choice5d = TreeNode("Investigate living area")
+  choice5e = TreeNode("Investigate ground floor bedroom")
+  choice5f = TreeNode("Investigate upstairs bedroom")
+  choice5g = TreeNode("Investigate study")
   choice4a = TreeNode("You investigate the vendor tables at the edge of the plaza", [choice5a])
   choice4b = TreeNode("You go down a nearby alleyway") #death route
   choice4c = TreeNode("approach cave", [choice5b])
   choice4d = TreeNode("Approach pond") #death route
   choice4e = TreeNode("You approach the anicent monument")
   choice4f = TreeNode("You approach the statue")
+  choice4g = TreeNode("You investigate the ground floor", [choice5c, choice5d, choice5e])
+  choice4h = TreeNode("You investigate the upper floor", [choice5f, choice5g])
   choice3a = TreeNode("You investigate the plaza", [choice4a, choice4b]) #Random encounter here
-  choice3b = TreeNode("You investigate a building")
+  choice3b = TreeNode("You investigate a building", [choice4g, choice4h])
   choice3c = TreeNode("You take the left path", [choice4e, choice4f])
   choice3d = TreeNode("You take the right path", [choice4c, choice4d])
   choice3e = TreeNode("You go to the upper floor")
@@ -53,9 +60,16 @@ def story_pathes():
   choice4c.parent = choice3d
   choice4e.parent = choice3c
   choice4f.parent = choice3c
+  choice4g.parent = choice3b
+  choice4h.parent = choice3b
   choice4d.parent = choice3d
   choice5a.parent = choice4a
   choice5b.parent = choice4a
+  choice5c.parent = choice4g
+  choice5d.parent = choice4g
+  choice5e.parent = choice4g
+  choice5f.parent = choice4h
+  choice5g.parent = choice4h
   choice6a.parent = choice5b
 
   #Add chance of finding random resource
