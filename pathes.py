@@ -1,4 +1,5 @@
 import random
+
 class TreeNode:
   def __init__(self, text, choices=None):
     self.text = text
@@ -96,6 +97,8 @@ def end_game_events(choice):
     print("Suddenley a large reptilian creature comes up from the water and eats you!")
   elif choice.text == "You approach a light in the distance":
     print("You find a teal crystal that appears to have specks of blue within it. This is what was giving off that signal")
+    with open("inventory.txt", "w") as file:
+        file.write("mysterious alien crystal")
 def encounter(choice):
   chance = random.randint(1,10)
   if choice.text == "You investigate the plaza" and chance == 8:
@@ -106,11 +109,15 @@ def encounter(choice):
     print("The coast is clear")
 
 def random_resource(choice):
-  chance = random.randint(1,25)
+  chance = 2
   if choice.text == "You investigate the storage area in the hangar" and chance == 2:
     print("You found a fuel cell would you like to pick it up?")
+    with open("inventory.txt", "w") as file:
+        file.write("fuel cell")
   elif choice.text == "You investigate the vendor tables at the edge of the plaza" and chance == 11:
     print("you find an anicent wooden necklace that looks like it's been here for years")
+    with open("inventory.txt", "w") as file:
+        file.write("old wooden necklace")
   else:
     print("You don't find anything")
 
