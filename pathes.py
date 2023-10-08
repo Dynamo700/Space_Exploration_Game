@@ -1,5 +1,7 @@
-import random
-
+from events import game_events
+from ends import end_game_events
+from encounters import encounter
+from items import random_resource
 class TreeNode:
   def __init__(self, text, choices=None):
     self.text = text
@@ -8,7 +10,6 @@ class TreeNode:
 
 def story_pathes():
   #Create the story nodes and choices
-  # choice6b = TreeNode
   choice6a = TreeNode("You approach a light in the distance")
   choice5a = TreeNode("Leave the plaza")
   choice5b = TreeNode("You enter the cave", [choice6a])
@@ -78,48 +79,18 @@ def story_pathes():
 
   return root
 
-def game_events(choice):
-  if choice.text == "You take the left path":
-    print("Before you is an anicent monument and a statue of a dragon. Which would you like to investigate?")
-  elif choice.text == "You approach the anicent monument":
-    print("As you approach the monument you see that there is alien writing on sections of the monument")
-    print("Suddenley the writing begins to glow blue, and energy forms around you, as you are teleported away from the planet...")
-  elif choice.text == "You approach the statue":
-    print("The statue was nearly 10 feet tall and seems to be humanoid shaped but has a wolf's head, hands and feet")
-    print("You hear faint...Whispering as you approach.")
-    print("Suddenley the statue moves toward you, it's eyes glowing blue, it presentes you with a mysterious sword.")
-def found_item(choice):
-  pass
-def end_game_events(choice):
-  if choice.text == "You go down a nearby alleyway":
-    print("You fall down a sewer grate and die.")
-  elif choice.text == "Approach pond":
-    print("Suddenley a large reptilian creature comes up from the water and eats you!")
-  elif choice.text == "You approach a light in the distance":
-    print("You find a teal crystal that appears to have specks of blue within it. This is what was giving off that signal")
-    with open("inventory.txt", "w") as file:
-        file.write("mysterious alien crystal")
-def encounter(choice):
-  chance = random.randint(1,10)
-  if choice.text == "You investigate the plaza" and chance == 8:
-    print("You encounter a robot")
-  elif choice.text == "You take the left path" and chance == 3:
-    print("You encounter a beast")
-  else:
-    print("The coast is clear")
+#Move these to different modules
+choice = TreeNode("You approach the anicent monument")
+game_events(choice)
 
-def random_resource(choice):
-  chance = 2
-  if choice.text == "You investigate the storage area in the hangar" and chance == 2:
-    print("You found a fuel cell would you like to pick it up?")
-    with open("inventory.txt", "w") as file:
-        file.write("fuel cell")
-  elif choice.text == "You investigate the vendor tables at the edge of the plaza" and chance == 11:
-    print("you find an anicent wooden necklace that looks like it's been here for years")
-    with open("inventory.txt", "w") as file:
-        file.write("old wooden necklace")
-  else:
-    print("You don't find anything")
+choice = TreeNode("You go down a nearby alleyway")
+end_game_events(choice)
+
+choice = TreeNode("You investigate the plaza")
+encounter(choice)
+
+choice = TreeNode("You investigate the storage area in the hangar")
+random_resource(choice)
 
 def show_choices(choices):
   print("Choices: ")
