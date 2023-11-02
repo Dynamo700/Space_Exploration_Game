@@ -10,13 +10,17 @@ class TreeNode:
 
 def story_pathes():
   #Create the story nodes and choices
+  choice6e = TreeNode("It seems that nothing is here. Time to head back to your ship.")
+  choice6d = TreeNode("It seems that nothing is here. Time to head back to your ship.")
+  choice6c = TreeNode("You don't find anything. You decide to head back to your ship.")
+  choice6b = TreeNode("You investigate the kitchen and you don't find anything. You decide to head back to your ship.")
   choice6a = TreeNode("You approach a light in the distance")
   choice5a = TreeNode("Leave the plaza")
   choice5b = TreeNode("You enter the cave", [choice6a])
-  choice5c = TreeNode("Investigate kitchen")
-  choice5d = TreeNode("Investigate living area")
-  choice5e = TreeNode("Investigate ground floor bedroom")
-  choice5f = TreeNode("Investigate upstairs bedroom")
+  choice5c = TreeNode("Investigate kitchen", [choice6b])
+  choice5d = TreeNode("Investigate living area", [choice6c])
+  choice5e = TreeNode("You investigate the closet", [choice6e])
+  choice5f = TreeNode("Investigate upstairs bedroom", [choice6d])
   choice5g = TreeNode("Investigate study")
   choice4a = TreeNode("You investigate the vendor tables at the edge of the plaza", [choice5a])
   choice4b = TreeNode("You go down a nearby alleyway") #death route
@@ -69,10 +73,14 @@ def story_pathes():
   choice5b.parent = choice4a
   choice5c.parent = choice4g
   choice5d.parent = choice4g
-  choice5e.parent = choice4g
   choice5f.parent = choice4h
   choice5g.parent = choice4h
   choice6a.parent = choice5b
+  choice6b.parent = choice5c
+  choice6c.parent = choice5d
+  choice6d.parent = choice5f
+  choice6e.parent = choice5e
+
 
   #Add chance of finding random resource
   #Add inventory system for equipment, resources, etc. Make this through use of text file(?)
@@ -118,6 +126,8 @@ def main():
         elif current_node.text == "You investigate the storage area in the hangar":
           random_resource(current_node)
         elif current_node.text == "You investigate the vendor tables at the edge of the plaza":
+          random_resource(current_node)
+        elif current_node.text == "Investigate study":
           random_resource(current_node)
         elif current_node.text == "You go down a nearby alleyway":
           end_game_events(current_node)
