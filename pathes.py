@@ -10,6 +10,8 @@ class TreeNode:
 
 def story_pathes():
   #Create the story nodes and choices
+  choice6g = TreeNode("You check in the cabinets")
+  choice6f = TreeNode("You check in the desk")
   choice6e = TreeNode("It seems that nothing is here. Time to head back to your ship.")
   choice6d = TreeNode("It seems that nothing is here. Time to head back to your ship.")
   choice6c = TreeNode("You don't find anything. You decide to head back to your ship.")
@@ -21,7 +23,9 @@ def story_pathes():
   choice5d = TreeNode("Investigate living area", [choice6c])
   choice5e = TreeNode("You investigate the closet", [choice6e])
   choice5f = TreeNode("Investigate upstairs bedroom", [choice6d])
-  choice5g = TreeNode("Investigate study")
+  choice5g = TreeNode("Investigate study", [choice6f, choice6g])
+  choice5h = TreeNode("You investigate the old computer terminals")
+  choice5i = TreeNode("You investigate the control room")
   choice4a = TreeNode("You investigate the vendor tables at the edge of the plaza", [choice5a])
   choice4b = TreeNode("You go down a nearby alleyway") #death route
   choice4c = TreeNode("approach cave", [choice5b])
@@ -30,11 +34,12 @@ def story_pathes():
   choice4f = TreeNode("You approach the statue")
   choice4g = TreeNode("You investigate the ground floor", [choice5c, choice5d, choice5e])
   choice4h = TreeNode("You investigate the upper floor", [choice5f, choice5g])
+  choice4i = TreeNode("You head to the control room", [choice5h, choice5i])
   choice3a = TreeNode("You investigate the plaza", [choice4a, choice4b]) #Random encounter here
   choice3b = TreeNode("You investigate a building", [choice4g, choice4h])
   choice3c = TreeNode("You take the left path", [choice4e, choice4f])
   choice3d = TreeNode("You take the right path", [choice4c, choice4d])
-  choice3e = TreeNode("You go to the upper floor")
+  choice3e = TreeNode("You go to the upper floor", [choice4i])
   choice3f = TreeNode("You go to the lower floor")
   choice3g = TreeNode("You investigate one of the old ships")
   choice3h = TreeNode("You investigate the storage area in the hangar")
@@ -69,17 +74,23 @@ def story_pathes():
   choice4g.parent = choice3b
   choice4h.parent = choice3b
   choice4d.parent = choice3d
+  choice4i.parent = choice3e
   choice5a.parent = choice4a
   choice5b.parent = choice4a
   choice5c.parent = choice4g
   choice5d.parent = choice4g
   choice5f.parent = choice4h
   choice5g.parent = choice4h
+  choice5h.parent = choice4i
+  choice5i.parent = choice4i
   choice6a.parent = choice5b
   choice6b.parent = choice5c
   choice6c.parent = choice5d
   choice6d.parent = choice5f
   choice6e.parent = choice5e
+  choice6f.parent = choice5g
+  choice6g.parent = choice5g
+
 
 
   #Add chance of finding random resource
@@ -127,7 +138,13 @@ def main():
           random_resource(current_node)
         elif current_node.text == "You investigate the vendor tables at the edge of the plaza":
           random_resource(current_node)
-        elif current_node.text == "Investigate study":
+        elif current_node.text == "You check in the desk":
+          random_resource(current_node)
+        elif current_node.text == "You check in the cabinets":
+          random_resource(current_node)
+        elif current_node.text == "You investigate one of the old ships":
+          random_resource(current_node)
+        elif current_node.text == "You investigate the old computer terminals":
           random_resource(current_node)
         elif current_node.text == "You go down a nearby alleyway":
           end_game_events(current_node)
