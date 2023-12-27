@@ -1,6 +1,6 @@
 import random
 def random_resource(choice):
-  chance = 2
+  chance = random.randint(1,32)
   if choice.text == "You investigate the storage area in the hangar" and chance == 29:
     print("You found a fuel cell that still has some power in it. This could be useful!")
     with open("inventory.txt", "w") as file:
