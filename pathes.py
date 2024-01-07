@@ -120,48 +120,47 @@ def main():
   story_root = story_pathes()
   current_node = story_root
 
+  #Mapping of the text choices to the functions
+  event_mapping = {
+    "You investigate the plaza":encounter,
+    "You take the left path": [encounter, game_events],
+    "You investigate the storage area in the hangar": random_resource,
+    "You investigate the vendor tables at the edge of the plaza": random_resource,
+    "You check in the desk": random_resource,
+    "You check in the cabinets": random_resource,
+    "You investigate one of the old ships": random_resource,
+    "You investigate the old computer terminals": random_resource,
+    "You go down a nearby alleyway": end_game_events,
+    "Approach pond": end_game_events,
+    "You approach a light in the distance": end_game_events,
+    "You approach the anicent monument": game_events,
+    "You approach the statue": game_events
+
+  }
+
   print("---Welcome to the Space Exploration game!---")
   while current_node.choices:
     print(current_node.text)
     show_choices(current_node.choices)
 
     try:
-      choice = int(input("Enter the number of your choice:  "))
+      choice = int(input("Enter the number of your choice:   "))
       if 1 <= choice <= len(current_node.choices):
         current_node = current_node.choices[choice - 1]
-        if current_node.text == "You investigate the plaza":
-          encounter(current_node)
-        elif current_node.text == "You take the left path":
-          encounter(current_node)
-          game_events(current_node)
-        elif current_node.text == "You investigate the storage area in the hangar":
-          random_resource(current_node)
-        elif current_node.text == "You investigate the vendor tables at the edge of the plaza":
-          random_resource(current_node)
-        elif current_node.text == "You check in the desk":
-          random_resource(current_node)
-        elif current_node.text == "You check in the cabinets":
-          random_resource(current_node)
-        elif current_node.text == "You investigate one of the old ships":
-          random_resource(current_node)
-        elif current_node.text == "You investigate the old computer terminals":
-          random_resource(current_node)
-        elif current_node.text == "You go down a nearby alleyway":
-          end_game_events(current_node)
-        elif current_node.text == "Approach pond":
-          end_game_events(current_node)
-        elif current_node.text == "You approach a light in the distance":
-          end_game_events(current_node)
-        elif current_node.text == "You approach the anicent monument":
-          game_events(current_node)
-        elif current_node.text == "You approach the statue":
-          game_events(current_node)
+        # Call the corresponding function if the text matches
+        if current_node.text in event_mapping:
+          result = event_mapping[current_node.text]
+          if callable(result):
+            result(current_node)
+          elif isinstance(result, list):
+            for func in result:
+              func(current_node)
       else:
         print("Attention! Invalid input. Please try again.")
     except ValueError:
       print("Invalid input. Please enter a number")
 
-  print(current_node.text)
+    print(current_node.text)
 
 if __name__ == "__main__":
     main()
